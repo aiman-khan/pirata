@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "688536608224",
+    "project_id": "shelfpirates",
+    "storage_bucket": "shelfpirates.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688536608224:android:36897aa3b19c902bd5df85",
+        "android_client_info": {
+          "package_name": "com.shelfpirates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "688536608224-mk8sjn5gk6s9gd9hmalsusscfkmplftp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shelfpirates",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "688536608224-7lvh6tpq93k6o0cbe452vv9pgttvqd64.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuPx6xJYPl5E0kdlOd3eGx1UpN8fzaGs0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "688536608224-7lvh6tpq93k6o0cbe452vv9pgttvqd64.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "688536608224-soqjhvuf43vk44ffnhr5jnmtoujmj500.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.shelfpirates"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
