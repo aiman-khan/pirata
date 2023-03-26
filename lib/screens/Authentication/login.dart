@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:maps_de/screens/Authentication/registration.dart';
 import 'package:maps_de/screens/Authentication/reset_password.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:maps_de/screens/Home/home_profile.dart';
 import 'package:maps_de/screens/Home/main_home.dart';
 import 'package:maps_de/utils/app_popups.dart';
+import 'package:maps_de/utils/globals.dart';
 
 import '../../common_widgets/custom_text_field.dart';
 import '../../services/firebase_services.dart';
@@ -100,11 +102,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (_formKey.currentState!.validate()) {
                         AppPopUps().showProgressDialog(context: context);
                         try {
-                          await signInUser(
+                          await FirebaseServices().signInUser(
                             _emailController.text,
                             _passwordController.text,
                             context,
                           );
+
+                          Globals().userId =
+                              FirebaseAuth.instance.currentUser!.uid;
                           AppPopUps().dissmissDialog(context);
 
                           Get.to(HomeProfile());
