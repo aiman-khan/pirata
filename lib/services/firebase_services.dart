@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:maps_de/models/store.dart';
 import 'package:maps_de/utils/Colors.dart';
 
 class FirebaseServices {
@@ -270,5 +271,11 @@ class FirebaseServices {
     } else {
       return null;
     }
+  }
+
+  Stream<List<Store>> getBets() {
+    return FirebaseFirestore.instance.collection('stores').snapshots().map(
+        (QuerySnapshot querySnapshot) =>
+            querySnapshot.docs.map((doc) => Store.fromFirestore(doc)).toList());
   }
 }

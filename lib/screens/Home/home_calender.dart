@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:maps_de/models/store.dart';
 import 'package:maps_de/screens/Home/home_profile.dart';
 import 'package:maps_de/services/firebase_services.dart';
 import 'package:maps_de/utils/globals.dart';
@@ -24,6 +25,10 @@ class HomeCalender extends StatefulWidget {
 class _HomeCalenderState extends State<HomeCalender> {
   // static final _myTabbedPageKey = new GlobalKey<_MainHomeState>();
   FirebaseServices firebaseServices = FirebaseServices();
+  final CollectionReference storesRef =
+      FirebaseFirestore.instance.collection('stores');
+  final CollectionReference storesToVisitRef =
+      FirebaseFirestore.instance.collection('store_visits');
 
   DocumentSnapshot? visits;
 
@@ -178,226 +183,109 @@ class _HomeCalenderState extends State<HomeCalender> {
                             ],
                           ),
                           const Divider(),
-                          SizedBox(
-                            height: size.height * 0.01,
-                          ),
+                          // SizedBox(
+                          //   height: size.height * 0.01,
+                          // ),
                           StreamBuilder<QuerySnapshot>(
-                              stream: FirebaseFirestore.instance
-                                  .collection("stores")
-                                  .where("store_id",
-                                      isEqualTo: storesToVisit[0]["store_id"])
-                                  .snapshots(),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return const Center(
-                                      child: CircularProgressIndicator(
-                                    color: Colors.black,
-                                  ));
-                                }
-
-                                QueryDocumentSnapshot storeDoc =
-                                    snapshot.data!.docs.first;
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${(storeDoc.data() as dynamic)['name']}",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: size.width * 0.04,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          "${(storeDoc.data() as dynamic)['address']}",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: size.width * 0.04),
-                                        ),
-                                      ],
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.to(() => const StoreDetails());
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xffD9D9D9),
-                                            borderRadius: BorderRadius.circular(
-                                                size.width * 0.02)),
-                                        padding:
-                                            EdgeInsets.all(size.width * 0.01),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              "14",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: size.width * 0.04),
-                                            ),
-                                            Text(
-                                              "items",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: size.width * 0.04),
-                                            ),
-                                          ],
-                                        ),
+                            stream: storesRef.snapshots(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              }
+                              if (!snapshot.hasData) {
+                                return Text('Loading...');
+                              }
+                              List<Store> stores = snapshot.data!.docs
+                                  .map((doc) => Store.fromFirestore(doc))
+                                  .toList();
+                              return ListView.builder(
+                                itemCount: stores.length,
+                                shrinkWrap: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${stores[index].name}",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: size.width * 0.04,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            "${stores[index].address}",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: size.width * 0.04),
+                                          ),
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                );
-                              }),
-                          SizedBox(
-                            height: size.height * 0.01,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Nombre de la tienda",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: size.width * 0.04,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "Av. José Martír No. 38 Local A",
-                                    textAlign: TextAlign.center,
-                                    style:
-                                        TextStyle(fontSize: size.width * 0.04),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffD9D9D9),
-                                    borderRadius: BorderRadius.circular(
-                                        size.width * 0.02)),
-                                padding: EdgeInsets.all(size.width * 0.01),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "8",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04),
-                                    ),
-                                    Text(
-                                      "items",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: size.height * 0.01,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Nombre de la tienda",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: size.width * 0.04,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "Av. José Martír No. 38 Local A",
-                                    textAlign: TextAlign.center,
-                                    style:
-                                        TextStyle(fontSize: size.width * 0.04),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffD9D9D9),
-                                    borderRadius: BorderRadius.circular(
-                                        size.width * 0.02)),
-                                padding: EdgeInsets.all(size.width * 0.01),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "6",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04),
-                                    ),
-                                    Text(
-                                      "items",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: size.height * 0.01,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Nombre de la tienda",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: size.width * 0.04,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "Av. José Martír No. 38 Local A",
-                                    textAlign: TextAlign.center,
-                                    style:
-                                        TextStyle(fontSize: size.width * 0.04),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: const Color(0xffD9D9D9),
-                                    borderRadius: BorderRadius.circular(
-                                        size.width * 0.02)),
-                                padding: EdgeInsets.all(size.width * 0.01),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "10",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04),
-                                    ),
-                                    Text(
-                                      "items",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                                      StreamBuilder<QuerySnapshot>(
+                                        stream: storesToVisitRef.snapshots(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot<QuerySnapshot>
+                                                snapshot) {
+                                          if (snapshot.hasError) {
+                                            return Text(
+                                                'Error: ${snapshot.error}');
+                                          }
+                                          if (!snapshot.hasData) {
+                                            return Text('Loading...');
+                                          }
+
+                                          QueryDocumentSnapshot
+                                              storesToVisitDoc =
+                                              snapshot.data!.docs.first;
+
+                                          return GestureDetector(
+                                            onTap: () {
+                                              Get.to(() => StoreDetails(
+                                                    storeAddress:
+                                                        stores[index].address,
+                                                  ));
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color:
+                                                      const Color(0xffD9D9D9),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          size.width * 0.02)),
+                                              padding: EdgeInsets.all(
+                                                  size.width * 0.01),
+                                              child: Column(
+                                                children: [
+                                                  Text(
+                                                    "${(storesToVisitDoc)['total_items']}",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            size.width * 0.04),
+                                                  ),
+                                                  Text(
+                                                    "items",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            size.width * 0.04),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
                           ),
                           SizedBox(
                             height: size.height * 0.02,
