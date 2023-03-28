@@ -150,43 +150,20 @@ class _HomeCalenderState extends State<HomeCalender> {
                       height: size.height * 0.03,
                     ),
                     Container(
-                      width: size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.shade300,
-                                blurRadius: 1,
-                                spreadRadius: 2,
-                                offset: const Offset(1, 2))
-                          ],
-                          borderRadius:
-                              BorderRadius.circular(size.width * 0.02)),
-                      padding: EdgeInsets.all(size.width * 0.04),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Visita programada",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: size.width * 0.045,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "18/01/23",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: size.width * 0.04),
-                              ),
+                        width: size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.shade300,
+                                  blurRadius: 1,
+                                  spreadRadius: 2,
+                                  offset: const Offset(1, 2))
                             ],
-                          ),
-                          const Divider(),
-                          // SizedBox(
-                          //   height: size.height * 0.01,
-                          // ),
-                          StreamBuilder<QuerySnapshot>(
+                            borderRadius:
+                                BorderRadius.circular(size.width * 0.02)),
+                        padding: EdgeInsets.all(size.width * 0.04),
+                        child: StreamBuilder<QuerySnapshot>(
                             stream: storesRef.snapshots(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -200,115 +177,198 @@ class _HomeCalenderState extends State<HomeCalender> {
                                   .map((doc) => Store.fromFirestore(doc))
                                   .toList();
                               return ListView.builder(
-                                itemCount: stores.length,
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "${stores[index].name}",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: size.width * 0.04,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                            "${stores[index].address}",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: size.width * 0.04),
-                                          ),
-                                        ],
-                                      ),
-                                      StreamBuilder<QuerySnapshot>(
-                                        stream: storesToVisitRef.snapshots(),
-                                        builder: (BuildContext context,
-                                            AsyncSnapshot<QuerySnapshot>
-                                                snapshot) {
-                                          if (snapshot.hasError) {
-                                            return Text(
-                                                'Error: ${snapshot.error}');
-                                          }
-                                          if (!snapshot.hasData) {
-                                            return Text('Loading...');
-                                          }
+                                  itemCount: stores.length,
+                                  shrinkWrap: true,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "Visita programada",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: size.width * 0.045,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              "18/01/23",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: size.width * 0.04),
+                                            ),
+                                          ],
+                                        ),
+                                        const Divider(),
+                                        // SizedBox(
+                                        //   height: size.height * 0.01,
+                                        // ),
+                                        StreamBuilder<QuerySnapshot>(
+                                          stream: storesRef.snapshots(),
+                                          builder: (BuildContext context,
+                                              AsyncSnapshot<QuerySnapshot>
+                                                  snapshot) {
+                                            if (snapshot.hasError) {
+                                              return Text(
+                                                  'Error: ${snapshot.error}');
+                                            }
+                                            if (!snapshot.hasData) {
+                                              return Text('Loading...');
+                                            }
+                                            List<Store> stores = snapshot
+                                                .data!.docs
+                                                .map((doc) =>
+                                                    Store.fromFirestore(doc))
+                                                .toList();
+                                            return ListView.builder(
+                                              itemCount: stores.length,
+                                              shrinkWrap: true,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          "${stores[index].name}",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  size.width *
+                                                                      0.04,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        Text(
+                                                          "${stores[index].address}",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  size.width *
+                                                                      0.04),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    StreamBuilder<
+                                                        QuerySnapshot>(
+                                                      stream: storesToVisitRef
+                                                          .snapshots(),
+                                                      builder: (BuildContext
+                                                              context,
+                                                          AsyncSnapshot<
+                                                                  QuerySnapshot>
+                                                              snapshot) {
+                                                        if (snapshot.hasError) {
+                                                          return Text(
+                                                              'Error: ${snapshot.error}');
+                                                        }
+                                                        if (!snapshot.hasData) {
+                                                          return Text(
+                                                              'Loading...');
+                                                        }
 
-                                          QueryDocumentSnapshot
-                                              storesToVisitDoc =
-                                              snapshot.data!.docs.first;
+                                                        QueryDocumentSnapshot
+                                                            storesToVisitDoc =
+                                                            snapshot.data!.docs
+                                                                .first;
 
-                                          return GestureDetector(
+                                                        return GestureDetector(
+                                                          onTap: () {
+                                                            Get.to(() =>
+                                                                StoreDetails(
+                                                                  storeId: stores[
+                                                                              index]
+                                                                          .storeId ??
+                                                                      "",
+                                                                  storeAddress:
+                                                                      "${stores[index].address}",
+                                                                ));
+                                                          },
+                                                          child: Container(
+                                                            decoration: BoxDecoration(
+                                                                color: const Color(
+                                                                    0xffD9D9D9),
+                                                                borderRadius: BorderRadius
+                                                                    .circular(size
+                                                                            .width *
+                                                                        0.02)),
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    size.width *
+                                                                        0.01),
+                                                            child: Column(
+                                                              children: [
+                                                                Text(
+                                                                  "${(storesToVisitDoc)['total_items']}",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          size.width *
+                                                                              0.04),
+                                                                ),
+                                                                Text(
+                                                                  "items",
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          size.width *
+                                                                              0.04),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+                                        SizedBox(
+                                          height: size.height * 0.02,
+                                        ),
+                                        const Divider(),
+                                        SizedBox(
+                                          height: size.height * 0.01,
+                                        ),
+                                        GestureDetector(
                                             onTap: () {
-                                              Get.to(() => StoreDetails(
+                                              Get.to(() => VisitDetails(
                                                     storeAddress:
-                                                        stores[index].address,
+                                                        "${stores[index].address}",
                                                   ));
                                             },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  color:
-                                                      const Color(0xffD9D9D9),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          size.width * 0.02)),
-                                              padding: EdgeInsets.all(
-                                                  size.width * 0.01),
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    "${(storesToVisitDoc)['total_items']}",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize:
-                                                            size.width * 0.04),
-                                                  ),
-                                                  Text(
-                                                    "items",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize:
-                                                            size.width * 0.04),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            height: size.height * 0.02,
-                          ),
-                          const Divider(),
-                          SizedBox(
-                            height: size.height * 0.01,
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                Get.to(() => const VisitDetails());
-                              },
-                              child: Text(
-                                "ver detalles".toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: size.width * 0.04,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blue),
-                              )),
-                        ],
-                      ),
-                    ),
+                                            child: Text(
+                                              "ver detalles".toUpperCase(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: size.width * 0.04,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.blue),
+                                            )),
+                                      ],
+                                    );
+                                  });
+                            }))
                   ],
                 ),
               );
