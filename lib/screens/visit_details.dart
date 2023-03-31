@@ -57,7 +57,16 @@ class _VisitDetailsState extends State<VisitDetails> {
           icon: BitmapDescriptor.defaultMarker,
           position: latLng),
     );
+
+    polyline.points.add(latLng);
   }
+
+  Polyline polyline = Polyline(
+    polylineId: PolylineId('polyline'),
+    color: Colors.blue,
+    width: 3,
+    points: <LatLng>[],
+  );
 
   void moveCameraToCurrentLocation() async {
     currentPosition = await Utils.getCurrentUserLocation(denied: () {
@@ -98,7 +107,6 @@ class _VisitDetailsState extends State<VisitDetails> {
         FirebaseFirestore.instance.collection('store_visits').snapshots();
     Stream<List<Visit>> visits = visitsStream.map((querySnapshot) =>
         querySnapshot.docs.map((doc) => Visit.fromFirestoreMap(doc)).toList());
-    // addMarkers(LatLng(33.6844, 73.0479), imagePath: "images/Frame.png");
 
     await for (List<Visit> v in visits) {
       for (Visit visit in v) {
@@ -196,6 +204,7 @@ class _VisitDetailsState extends State<VisitDetails> {
                         myLocationButtonEnabled: false,
                         myLocationEnabled: true,
                         compassEnabled: false,
+                        polylines: Set<Polyline>.of([polyline]),
                         markers: Set<Marker>.of(markerList.values),
                         onMapCreated: (mapController) {
                           mapCompleter.complete(mapController);

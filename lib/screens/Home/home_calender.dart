@@ -177,8 +177,9 @@ class _HomeCalenderState extends State<HomeCalender> {
                                   .map((doc) => Store.fromFirestore(doc))
                                   .toList();
                               return ListView.builder(
-                                  itemCount: stores.length,
+                                  itemCount: 1,
                                   shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return Column(
@@ -226,118 +227,125 @@ class _HomeCalenderState extends State<HomeCalender> {
                                             return ListView.builder(
                                               itemCount: stores.length,
                                               shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                return Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          "${stores[index].name}",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  size.width *
-                                                                      0.04,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                        Text(
-                                                          "${stores[index].address}",
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  size.width *
-                                                                      0.04),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    StreamBuilder<
-                                                        QuerySnapshot>(
-                                                      stream: storesToVisitRef
-                                                          .snapshots(),
-                                                      builder: (BuildContext
-                                                              context,
-                                                          AsyncSnapshot<
-                                                                  QuerySnapshot>
-                                                              snapshot) {
-                                                        if (snapshot.hasError) {
-                                                          return Text(
-                                                              'Error: ${snapshot.error}');
-                                                        }
-                                                        if (!snapshot.hasData) {
-                                                          return Text(
-                                                              'Loading...');
-                                                        }
-
-                                                        QueryDocumentSnapshot
-                                                            storesToVisitDoc =
-                                                            snapshot.data!.docs
-                                                                .first;
-
-                                                        return GestureDetector(
-                                                          onTap: () {
-                                                            Get.to(() =>
-                                                                StoreDetails(
-                                                                  storeId: stores[
-                                                                              index]
-                                                                          .storeId ??
-                                                                      "",
-                                                                  storeAddress:
-                                                                      "${stores[index].address}",
-                                                                ));
-                                                          },
-                                                          child: Container(
-                                                            decoration: BoxDecoration(
-                                                                color: const Color(
-                                                                    0xffD9D9D9),
-                                                                borderRadius: BorderRadius
-                                                                    .circular(size
-                                                                            .width *
-                                                                        0.02)),
-                                                            padding:
-                                                                EdgeInsets.all(
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            "${stores[index].name}",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize:
                                                                     size.width *
-                                                                        0.01),
-                                                            child: Column(
-                                                              children: [
-                                                                Text(
-                                                                  "${(storesToVisitDoc)['total_items']}",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          size.width *
-                                                                              0.04),
-                                                                ),
-                                                                Text(
-                                                                  "items",
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center,
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          size.width *
-                                                                              0.04),
-                                                                ),
-                                                              ],
-                                                            ),
+                                                                        0.04,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
                                                           ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  ],
+                                                          Text(
+                                                            "${stores[index].address}",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    size.width *
+                                                                        0.04),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      StreamBuilder<
+                                                          QuerySnapshot>(
+                                                        stream: storesToVisitRef
+                                                            .snapshots(),
+                                                        builder: (BuildContext
+                                                                context,
+                                                            AsyncSnapshot<
+                                                                    QuerySnapshot>
+                                                                snapshot) {
+                                                          if (snapshot
+                                                              .hasError) {
+                                                            return Text(
+                                                                'Error: ${snapshot.error}');
+                                                          }
+                                                          if (!snapshot
+                                                              .hasData) {
+                                                            return Text(
+                                                                'Loading...');
+                                                          }
+
+                                                          QueryDocumentSnapshot
+                                                              storesToVisitDoc =
+                                                              snapshot.data!
+                                                                  .docs.first;
+
+                                                          return GestureDetector(
+                                                            onTap: () {
+                                                              Get.to(() =>
+                                                                  StoreDetails(
+                                                                    storeId:
+                                                                        stores[index].storeId ??
+                                                                            "",
+                                                                    storeAddress:
+                                                                        "${stores[index].address}",
+                                                                  ));
+                                                            },
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: const Color(
+                                                                      0xffD9D9D9),
+                                                                  borderRadius:
+                                                                      BorderRadius.circular(
+                                                                          size.width *
+                                                                              0.02)),
+                                                              padding:
+                                                                  EdgeInsets.all(
+                                                                      size.width *
+                                                                          0.01),
+                                                              child: Column(
+                                                                children: [
+                                                                  Text(
+                                                                    "${(storesToVisitDoc)['total_items']}",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            size.width *
+                                                                                0.04),
+                                                                  ),
+                                                                  Text(
+                                                                    "items",
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            size.width *
+                                                                                0.04),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
                                                 );
                                               },
                                             );
