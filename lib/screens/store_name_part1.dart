@@ -3,14 +3,13 @@ import 'package:get/get.dart';
 import 'package:maps_de/screens/store_name_part2.dart';
 import 'package:maps_de/screens/truble_report.dart';
 
-class StoreNamePart1 extends StatefulWidget {
-  const StoreNamePart1({Key? key}) : super(key: key);
+import '../models/visits.dart';
 
-  @override
-  State createState() => _StoreNamePart1State();
-}
+class StoreNamePart1 extends StatelessWidget {
+  final Visit visit;
 
-class _StoreNamePart1State extends State<StoreNamePart1> {
+  StoreNamePart1({Key? key, required this.visit}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -18,7 +17,7 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(size.width * 0.05),
         child: GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.to(() => const StoreNamePart2());
           },
           child: Container(
@@ -26,9 +25,15 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
             padding: EdgeInsets.all(size.width * 0.05),
             decoration: BoxDecoration(
                 color: Colors.black,
-                borderRadius: BorderRadius.circular(size.width * 0.02)
+                borderRadius: BorderRadius.circular(size.width * 0.02)),
+            child: Text(
+              "siguiente".toUpperCase(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: size.width * 0.04,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600),
             ),
-            child: Text("siguiente".toUpperCase(),textAlign: TextAlign.center, style: TextStyle(fontSize: size.width * 0.04,color: Colors.white,fontWeight: FontWeight.w600),),
           ),
         ),
       ),
@@ -36,94 +41,179 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(left: size.width * 0.08,right: size.width * 0.08,top: size.width * 0.08),
+              padding: EdgeInsets.only(
+                  left: size.width * 0.08,
+                  right: size.width * 0.08,
+                  top: size.width * 0.08),
               child: Column(
                 children: [
-                  SizedBox(height: size.height * 0.02,),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(width: size.width * 0.07,),
-                      Text("NOMBRE DE TIENDA ", style: TextStyle(fontSize: size.width * 0.05,fontWeight: FontWeight.bold),),
+                      SizedBox(
+                        width: size.width * 0.07,
+                      ),
+                      Text(
+                        visit.storeName!.toUpperCase(),
+                        style: TextStyle(
+                            fontSize: size.width * 0.05,
+                            fontWeight: FontWeight.bold),
+                      ),
                       GestureDetector(
-                        onTap: (){
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return Wrap(
-                                  children: [
-                                    Container(
-                                      color: Colors.white,
-                                      child: Column(
-                                        children: [
-                                          SizedBox(height: size.height * 0.02,),
-                                          Text("¿Algo no funciona?", style: TextStyle(fontSize: size.width * 0.05,fontWeight: FontWeight.bold),),
-                                          SizedBox(height: size.height * 0.01,),
-                                          Text("Tus comentarios son importantes, envía tu reporte.", style: TextStyle(fontSize: size.width * 0.04),),
-                                          const Divider(color: Colors.black,),
-                                          GestureDetector(
-                                            onTap: (){
-                                              Get.to(() => const TroubleReport());
-                                            },
-                                            child: Padding(
-                                              padding: EdgeInsets.all(size.width * 0.02),
-                                              child: Row(
-                                                children: [
-                                                  Image.asset("images/clipboardclose.png"),
-                                                  SizedBox(width: size.width * 0.02,),
-                                                  Text("Reportar un problema", style: TextStyle(fontSize: size.width * 0.045,fontWeight: FontWeight.bold)),
-                                                ],
+                          onTap: () {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return Wrap(
+                                    children: [
+                                      Container(
+                                        color: Colors.white,
+                                        child: Column(
+                                          children: [
+                                            SizedBox(
+                                              height: size.height * 0.02,
+                                            ),
+                                            Text(
+                                              "¿Algo no funciona?",
+                                              style: TextStyle(
+                                                  fontSize: size.width * 0.05,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            SizedBox(
+                                              height: size.height * 0.01,
+                                            ),
+                                            Text(
+                                              "Tus comentarios son importantes, envía tu reporte.",
+                                              style: TextStyle(
+                                                  fontSize: size.width * 0.04),
+                                            ),
+                                            const Divider(
+                                              color: Colors.black,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(() =>
+                                                    const TroubleReport());
+                                              },
+                                              child: Padding(
+                                                padding: EdgeInsets.all(
+                                                    size.width * 0.02),
+                                                child: Row(
+                                                  children: [
+                                                    Image.asset(
+                                                        "images/clipboardclose.png"),
+                                                    SizedBox(
+                                                      width: size.width * 0.02,
+                                                    ),
+                                                    Text("Reportar un problema",
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                size.width *
+                                                                    0.045,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          const Divider(color: Colors.black,),
-                                          GestureDetector(
-                                            onTap: (){
-                                              Get.to(() => const TroubleReport());
-                                            },
-                                            child: Padding(
-                                              padding: EdgeInsets.all(size.width * 0.02),
-                                              child: Row(
-                                                children: [
-                                                  Image.asset("images/Vector.png"),
-                                                  SizedBox(width: size.width * 0.02,),
-                                                  Text("Producto descatalogado", style: TextStyle(fontSize: size.width * 0.045,fontWeight: FontWeight.bold)),
-                                                ],
+                                            const Divider(
+                                              color: Colors.black,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(() =>
+                                                    const TroubleReport());
+                                              },
+                                              child: Padding(
+                                                padding: EdgeInsets.all(
+                                                    size.width * 0.02),
+                                                child: Row(
+                                                  children: [
+                                                    Image.asset(
+                                                        "images/Vector.png"),
+                                                    SizedBox(
+                                                      width: size.width * 0.02,
+                                                    ),
+                                                    Text(
+                                                        "Producto descatalogado",
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                size.width *
+                                                                    0.045,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          const Divider(color: Colors.black,),
-                                          GestureDetector(
-                                            onTap: (){
-                                              Get.to(() => const TroubleReport());
-                                            },
-                                            child: Padding(
-                                              padding: EdgeInsets.all(size.width * 0.02),
-                                              child: Row(
-                                                children: [
-                                                  Image.asset("images/call.png"),
-                                                  SizedBox(width: size.width * 0.02,),
-                                                  Text("Hablar con el administrador", style: TextStyle(fontSize: size.width * 0.045,fontWeight: FontWeight.bold)),
-                                                ],
+                                            const Divider(
+                                              color: Colors.black,
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(() =>
+                                                    const TroubleReport());
+                                              },
+                                              child: Padding(
+                                                padding: EdgeInsets.all(
+                                                    size.width * 0.02),
+                                                child: Row(
+                                                  children: [
+                                                    Image.asset(
+                                                        "images/call.png"),
+                                                    SizedBox(
+                                                      width: size.width * 0.02,
+                                                    ),
+                                                    Text(
+                                                        "Hablar con el administrador",
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                size.width *
+                                                                    0.045,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold)),
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          const Divider(color: Colors.black,),
-                                          SizedBox(height: size.height * 0.01,),
-                                        ],
+                                            const Divider(
+                                              color: Colors.black,
+                                            ),
+                                            SizedBox(
+                                              height: size.height * 0.01,
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                );
-                              });
-                        },
+                                    ],
+                                  );
+                                });
+                          },
                           child: const Icon(Icons.info_outline)),
                     ],
                   ),
-                  Text("ID Visita: 2089597", style: TextStyle(fontSize: size.width * 0.04),),
-                  SizedBox(height: size.height * 0.02,),
-                  Text("PASO 1: ALMACÉN", style: TextStyle(fontSize: size.width * 0.05, fontWeight: FontWeight.bold),),
-                  SizedBox(height: size.height * 0.02,),
+                  Text(
+                    "ID Visita: #${visit.visitId}",
+                    style: TextStyle(fontSize: size.width * 0.04),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
+                  Text(
+                    "PASO 1: ALMACÉN",
+                    style: TextStyle(
+                        fontSize: size.width * 0.05,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -131,47 +221,73 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                         width: size.width * 0.27,
                         height: 5,
                         decoration: BoxDecoration(
-                          color: const Color(0xff009A0F),
-                          borderRadius: BorderRadius.circular(size.width * 0.04)
-                        ),
+                            color: const Color(0xff009A0F),
+                            borderRadius:
+                                BorderRadius.circular(size.width * 0.04)),
                       ),
                       Container(
                         width: size.width * 0.27,
                         height: 5,
                         decoration: BoxDecoration(
                             color: const Color(0xffD9D9D9),
-                            borderRadius: BorderRadius.circular(size.width * 0.04)
-                        ),
+                            borderRadius:
+                                BorderRadius.circular(size.width * 0.04)),
                       ),
                       Container(
                         width: size.width * 0.27,
                         height: 5,
                         decoration: BoxDecoration(
                             color: const Color(0xffD9D9D9),
-                            borderRadius: BorderRadius.circular(size.width * 0.04)
-                        ),
+                            borderRadius:
+                                BorderRadius.circular(size.width * 0.04)),
                       ),
                     ],
                   ),
-                  SizedBox(height: size.height * 0.02,),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
                 ],
               ),
             ),
-            const Divider(color: Colors.black,),
+            const Divider(
+              color: Colors.black,
+            ),
             Padding(
-                padding: EdgeInsets.all(size.width * 0.05),
+              padding: EdgeInsets.all(size.width * 0.05),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Productos",style: TextStyle(fontSize: size.width * 0.045,fontWeight: FontWeight.bold),),
-                  Text("Fotografía\nen almacén",style: TextStyle(fontSize: size.width * 0.045,fontWeight: FontWeight.bold),),
-                  Text("Inventario\nen sistema",style: TextStyle(fontSize: size.width * 0.045,fontWeight: FontWeight.bold),),
-                  Text("Inventario\nen almacén",style: TextStyle(fontSize: size.width * 0.045,fontWeight: FontWeight.bold),),
+                  Text(
+                    "Productos",
+                    style: TextStyle(
+                        fontSize: size.width * 0.045,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Fotografía\nen almacén",
+                    style: TextStyle(
+                        fontSize: size.width * 0.045,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Inventario\nen sistema",
+                    style: TextStyle(
+                        fontSize: size.width * 0.045,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Inventario\nen almacén",
+                    style: TextStyle(
+                        fontSize: size.width * 0.045,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
             ),
-            const Divider(color: Colors.black,),
+            const Divider(
+              color: Colors.black,
+            ),
             Padding(
               padding: EdgeInsets.all(size.width * 0.05),
               child: Row(
@@ -180,13 +296,15 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                 children: [
                   SizedBox(
                       width: size.width * 0.23,
-                      child: Text("Palomitas\namaranto, linaza",style: TextStyle(fontSize: size.width * 0.045),)),
+                      child: Text(
+                        "Palomitas\namaranto, linaza",
+                        style: TextStyle(fontSize: size.width * 0.045),
+                      )),
                   Container(
                     padding: EdgeInsets.all(size.width * 0.02),
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(size.width * 0.02)
-                    ),
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(size.width * 0.02)),
                     child: const Icon(Icons.camera_alt_outlined),
                   ),
                   Container(
@@ -194,17 +312,21 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                     padding: EdgeInsets.all(size.width * 0.03),
                     decoration: BoxDecoration(
                         color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)
+                        borderRadius: BorderRadius.circular(size.width * 0.02)),
+                    child: Text(
+                      "10",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: size.width * 0.045,
+                          fontWeight: FontWeight.bold),
                     ),
-                    child: Text("10",textAlign: TextAlign.center,style: TextStyle(fontSize: size.width * 0.045,fontWeight: FontWeight.bold),),
                   ),
                   Container(
                     width: size.width * 0.2,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(size.width * 0.02),
-                        border: Border.all(width: 1.5)
-                    ),
-                    child:  TextField(
+                        border: Border.all(width: 1.5)),
+                    child: TextField(
                       decoration: InputDecoration(
                         hintText: "",
                         contentPadding: EdgeInsets.all(size.width * 0.04),
@@ -217,7 +339,9 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                 ],
               ),
             ),
-            const Divider(color: Colors.black,),
+            const Divider(
+              color: Colors.black,
+            ),
             Padding(
               padding: EdgeInsets.all(size.width * 0.05),
               child: Row(
@@ -226,13 +350,15 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                 children: [
                   SizedBox(
                       width: size.width * 0.23,
-                      child: Text("Bites\nCamu Camu",style: TextStyle(fontSize: size.width * 0.045),)),
+                      child: Text(
+                        "Bites\nCamu Camu",
+                        style: TextStyle(fontSize: size.width * 0.045),
+                      )),
                   Container(
                     padding: EdgeInsets.all(size.width * 0.02),
                     decoration: BoxDecoration(
                         color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)
-                    ),
+                        borderRadius: BorderRadius.circular(size.width * 0.02)),
                     child: const Icon(Icons.camera_alt_outlined),
                   ),
                   Container(
@@ -240,17 +366,21 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                     padding: EdgeInsets.all(size.width * 0.03),
                     decoration: BoxDecoration(
                         color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)
+                        borderRadius: BorderRadius.circular(size.width * 0.02)),
+                    child: Text(
+                      "10",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: size.width * 0.045,
+                          fontWeight: FontWeight.bold),
                     ),
-                    child: Text("10",textAlign: TextAlign.center,style: TextStyle(fontSize: size.width * 0.045,fontWeight: FontWeight.bold),),
                   ),
                   Container(
                     width: size.width * 0.2,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(size.width * 0.02),
-                        border: Border.all(width: 1.5)
-                    ),
-                    child:  TextField(
+                        border: Border.all(width: 1.5)),
+                    child: TextField(
                       decoration: InputDecoration(
                         hintText: "",
                         contentPadding: EdgeInsets.all(size.width * 0.04),
@@ -263,7 +393,9 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                 ],
               ),
             ),
-            const Divider(color: Colors.black,),
+            const Divider(
+              color: Colors.black,
+            ),
             Padding(
               padding: EdgeInsets.all(size.width * 0.05),
               child: Row(
@@ -272,13 +404,15 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                 children: [
                   SizedBox(
                       width: size.width * 0.23,
-                      child: Text("Palomitas\nchile limón",style: TextStyle(fontSize: size.width * 0.045),)),
+                      child: Text(
+                        "Palomitas\nchile limón",
+                        style: TextStyle(fontSize: size.width * 0.045),
+                      )),
                   Container(
                     padding: EdgeInsets.all(size.width * 0.02),
                     decoration: BoxDecoration(
                         color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)
-                    ),
+                        borderRadius: BorderRadius.circular(size.width * 0.02)),
                     child: const Icon(Icons.camera_alt_outlined),
                   ),
                   Container(
@@ -286,17 +420,21 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                     padding: EdgeInsets.all(size.width * 0.03),
                     decoration: BoxDecoration(
                         color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)
+                        borderRadius: BorderRadius.circular(size.width * 0.02)),
+                    child: Text(
+                      "10",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: size.width * 0.045,
+                          fontWeight: FontWeight.bold),
                     ),
-                    child: Text("10",textAlign: TextAlign.center,style: TextStyle(fontSize: size.width * 0.045,fontWeight: FontWeight.bold),),
                   ),
                   Container(
                     width: size.width * 0.2,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(size.width * 0.02),
-                        border: Border.all(width: 1.5)
-                    ),
-                    child:  TextField(
+                        border: Border.all(width: 1.5)),
+                    child: TextField(
                       decoration: InputDecoration(
                         hintText: "",
                         contentPadding: EdgeInsets.all(size.width * 0.04),
@@ -309,7 +447,9 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                 ],
               ),
             ),
-            const Divider(color: Colors.black,),
+            const Divider(
+              color: Colors.black,
+            ),
             Padding(
               padding: EdgeInsets.all(size.width * 0.05),
               child: Row(
@@ -317,14 +457,16 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: size.width * 0.23,
-                      child: Text("Bites\nColageno",style: TextStyle(fontSize: size.width * 0.045),)),
+                      width: size.width * 0.23,
+                      child: Text(
+                        "Bites\nColageno",
+                        style: TextStyle(fontSize: size.width * 0.045),
+                      )),
                   Container(
                     padding: EdgeInsets.all(size.width * 0.02),
                     decoration: BoxDecoration(
                         color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)
-                    ),
+                        borderRadius: BorderRadius.circular(size.width * 0.02)),
                     child: const Icon(Icons.camera_alt_outlined),
                   ),
                   Container(
@@ -332,17 +474,21 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                     padding: EdgeInsets.all(size.width * 0.03),
                     decoration: BoxDecoration(
                         color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)
+                        borderRadius: BorderRadius.circular(size.width * 0.02)),
+                    child: Text(
+                      "10",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: size.width * 0.045,
+                          fontWeight: FontWeight.bold),
                     ),
-                    child: Text("10",textAlign: TextAlign.center,style: TextStyle(fontSize: size.width * 0.045,fontWeight: FontWeight.bold),),
                   ),
                   Container(
                     width: size.width * 0.2,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(size.width * 0.02),
-                        border: Border.all(width: 1.5)
-                    ),
-                    child:  TextField(
+                        border: Border.all(width: 1.5)),
+                    child: TextField(
                       decoration: InputDecoration(
                         hintText: "",
                         contentPadding: EdgeInsets.all(size.width * 0.04),
@@ -355,7 +501,9 @@ class _StoreNamePart1State extends State<StoreNamePart1> {
                 ],
               ),
             ),
-            const Divider(color: Colors.black,),
+            const Divider(
+              color: Colors.black,
+            ),
           ],
         ),
       ),

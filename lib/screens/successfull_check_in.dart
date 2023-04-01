@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:maps_de/screens/Authentication/login.dart';
-import 'package:maps_de/screens/Authentication/registration.dart';
 import 'package:maps_de/screens/store_name_part1.dart';
-import 'package:maps_de/utils/Colors.dart';
 import 'package:get/get.dart';
 
 class SuccessFullCheckIn extends StatefulWidget {
@@ -25,8 +22,18 @@ class _SuccessFullCheckInState extends State<SuccessFullCheckIn> {
         centerTitle: true,
         title: Column(
           children: [
-            Text("NOMBRE DE TIENDA ", style: TextStyle(fontSize: size.width * 0.05,fontWeight: FontWeight.bold,color: Colors.black),),
-            Text("ID Visita: 2089597", style: TextStyle(fontSize: size.width * 0.035,color: Colors.black),),
+            Text(
+              "NOMBRE DE TIENDA ",
+              style: TextStyle(
+                  fontSize: size.width * 0.05,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+            ),
+            Text(
+              "ID Visita: 2089597",
+              style:
+                  TextStyle(fontSize: size.width * 0.035, color: Colors.black),
+            ),
           ],
         ),
       ),
@@ -39,26 +46,46 @@ class _SuccessFullCheckInState extends State<SuccessFullCheckIn> {
             // SizedBox(height: size.height * 0.05,),
             SvgPicture.asset("images/tickcircle.svg"),
             // Image.asset("name"),
-            SizedBox(height: size.height * 0.05,),
+            SizedBox(
+              height: size.height * 0.05,
+            ),
             Column(
               children: [
-                Text("CHECK IN EXITOSO",textAlign: TextAlign.center, style: TextStyle(fontSize: size.width * 0.045,fontWeight: FontWeight.bold),),
-                Text("11:02 AM",textAlign: TextAlign.center, style: TextStyle(fontSize: size.width * 0.035),),
+                Text(
+                  "CHECK IN EXITOSO",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: size.width * 0.045,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "11:02 AM",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: size.width * 0.035),
+                ),
               ],
             ),
-            SizedBox(height: size.height * 0.05,),
+            SizedBox(
+              height: size.height * 0.05,
+            ),
             GestureDetector(
-              onTap: (){
-                Get.offAll(() => const StoreNamePart1());
+              onTap: () {
+                // Get.offAll(() => StoreNamePart1());
               },
               child: Container(
                 width: size.width,
                 padding: EdgeInsets.all(size.width * 0.05),
                 decoration: BoxDecoration(
                     color: Colors.black,
-                    borderRadius: BorderRadius.circular(size.width * 0.02)
+                    borderRadius: BorderRadius.circular(size.width * 0.02)),
+                child: Text(
+                  "continuar".toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: size.width * 0.04,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600),
                 ),
-                child: Text("continuar".toUpperCase(),textAlign: TextAlign.center, style: TextStyle(fontSize: size.width * 0.04,color: Colors.white,fontWeight: FontWeight.w600),),
               ),
             ),
           ],

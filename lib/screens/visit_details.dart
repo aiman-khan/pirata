@@ -3,177 +3,19 @@ import 'dart:async';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:maps_de/screens/start_route.dart';
 import 'package:maps_de/screens/store_details.dart';
-import 'package:permission_handler/permission_handler.dart';
 
-import '../controllers/google_map_controller.dart';
+import '../controllers/home_map_controller.dart';
+import '../controllers/visit_details_controller.dart';
 import '../models/visits.dart';
-import '../utils/utils.dart';
 
-class VisitDetails extends StatefulWidget {
+class VisitDetails extends GetView<VisitDetailsController> {
   final String storeAddress;
   const VisitDetails({Key? key, required this.storeAddress}) : super(key: key);
-
-  @override
-  State createState() => _VisitDetailsState();
-}
-
-class _VisitDetailsState extends State<VisitDetails> {
-  MapDialogs controller = MapDialogs();
-  RxMap<String, Marker> markerList = <String, Marker>{}.obs;
-  Position? currentPosition;
-  RxBool loading = false.obs;
-  RxList<dynamic> storesList = <dynamic>[].obs;
-  CameraPosition? currentCameraPosition;
-  final Completer<GoogleMapController> mapCompleter =
-      Completer<GoogleMapController>();
-  GoogleMapController? googleMapController;
-  CameraPosition kGooglePlex = const CameraPosition(
-    target: LatLng(50.11466, 94.522643),
-    zoom: 14.4746,
-  );
-
-  CameraPosition kLake = const CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
-
-  addMarkers(
-    LatLng latLng, {
-    required String imagePath,
-    String? userId,
-  }) async {
-    // final Uint8List markIcons = await getImage(imagePath, 80);
-    markerList.putIfAbsent(
-      userId ?? DateTime.now().toString(),
-      () => Marker(
-          markerId: MarkerId(DateTime.now().microsecondsSinceEpoch.toString()),
-          icon: BitmapDescriptor.defaultMarker,
-          position: latLng),
-    );
-
-    polyline.points.add(latLng);
-  }
-
-  Polyline polyline = Polyline(
-    polylineId: PolylineId('polyline'),
-    color: Colors.blue,
-    width: 3,
-    points: <LatLng>[],
-  );
-
-  void moveCameraToCurrentLocation() async {
-    currentPosition = await Utils.getCurrentUserLocation(denied: () {
-      Get.defaultDialog(
-        content: controller.locationPermissionDialog(
-            title: "Attention",
-            description: "Allow location to see planted tree around you",
-            cancelTap: () {
-              Get.back();
-            },
-            buttonTap: () {
-              openAppSettings();
-            },
-            image: "",
-            buttonTitle: "Open setting"),
-      );
-    });
-    if (googleMapController != null) {
-      if (currentPosition != null) {
-        googleMapController!.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target:
-                  LatLng(currentPosition!.latitude, currentPosition!.longitude),
-              zoom: 14.4746,
-            ),
-          ),
-        );
-      }
-    }
-  }
-
-  Future<void> getLocations() async {
-    loading.value = true;
-    storesList.clear();
-
-    final visitsStream =
-        FirebaseFirestore.instance.collection('store_visits').snapshots();
-    Stream<List<Visit>> visits = visitsStream.map((querySnapshot) =>
-        querySnapshot.docs.map((doc) => Visit.fromFirestoreMap(doc)).toList());
-
-    await for (List<Visit> v in visits) {
-      for (Visit visit in v) {
-        addMarkers(
-            LatLng(double.parse(visit.gpsLocation!.latitude.toString()),
-                double.parse(visit.gpsLocation!.longitude.toString())),
-            imagePath: "");
-      }
-    }
-    loading.value = false;
-  }
-
-  void moveCameraToSelectedLocation(LatLng? latLng) async {
-    if (googleMapController != null) {
-      if (latLng != null) {
-        googleMapController!.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: latLng,
-              zoom: 14.4746,
-            ),
-          ),
-        );
-      }
-    }
-  }
-
-  Future<void> moveCameraAccordingToCurrentLocation() async {
-    currentPosition = await Utils.getCurrentUserLocation(denied: () {
-      Get.defaultDialog(
-        content: controller.locationPermissionDialog(
-            title: "Attention",
-            description: "Allow location to see planted tree around you",
-            cancelTap: () {
-              Get.back();
-            },
-            buttonTap: () {
-              openAppSettings();
-            },
-            image: '',
-            buttonTitle: "Open setting"),
-      );
-    });
-    if (currentPosition != null) {
-      currentCameraPosition = CameraPosition(
-        target: LatLng(currentPosition!.latitude, currentPosition!.longitude),
-        zoom: 14.4746,
-      );
-      if (googleMapController != null) {
-        googleMapController!.animateCamera(
-            CameraUpdate.newCameraPosition(currentCameraPosition!));
-      }
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getLocations();
-  }
-
-  @override
-  void dispose() {
-    markerList.close();
-    googleMapController?.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,8 +30,8 @@ class _VisitDetailsState extends State<VisitDetails> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: GetBuilder<MapDialogs>(
-          init: MapDialogs(),
+      body: GetBuilder<VisitDetailsController>(
+          init: VisitDetailsController(),
           builder: (context) {
             return SingleChildScrollView(
               child: Column(
@@ -200,19 +42,20 @@ class _VisitDetailsState extends State<VisitDetails> {
                       height: size.height * 0.2,
                       child: GoogleMap(
                         initialCameraPosition:
-                            currentCameraPosition ?? kGooglePlex,
+                            controller.currentCameraPosition ??
+                                controller.kGooglePlex,
                         myLocationButtonEnabled: false,
                         myLocationEnabled: true,
                         compassEnabled: false,
-                        polylines: Set<Polyline>.of([polyline]),
-                        markers: Set<Marker>.of(markerList.values),
+                        polylines: <Polyline>{controller.polyline},
+                        markers: Set<Marker>.of(controller.markerList.values),
                         onMapCreated: (mapController) {
-                          mapCompleter.complete(mapController);
-                          if (mapCompleter.isCompleted) {
-                            googleMapController = mapController;
-                            if (googleMapController != null) {
+                          controller.mapCompleter.complete(mapController);
+                          if (controller.mapCompleter.isCompleted) {
+                            controller.googleMapController = mapController;
+                            if (controller.googleMapController != null) {
                               Future.delayed(const Duration(seconds: 3), () {
-                                moveCameraToCurrentLocation();
+                                controller.moveCameraToCurrentLocation();
                               });
                             }
                           }
@@ -235,7 +78,10 @@ class _VisitDetailsState extends State<VisitDetails> {
                               return Text('Error: ${snapshot.error}');
                             }
                             if (!snapshot.hasData) {
-                              return Text('Loading...');
+                              return const Center(
+                                  child: CircularProgressIndicator(
+                                color: Colors.black,
+                              ));
                             }
                             List<Visit> visits = snapshot.data!.docs
                                 .map((doc) => Visit.fromFirestoreMap(doc))
@@ -727,8 +573,7 @@ class _VisitDetailsState extends State<VisitDetails> {
                                           Get.to(() => StoreDetails(
                                                 storeId:
                                                     visits[index].storeId ?? "",
-                                                storeAddress:
-                                                    widget.storeAddress,
+                                                storeAddress: storeAddress,
                                               ));
                                         },
                                         child: ListView.builder(
@@ -773,7 +618,7 @@ class _VisitDetailsState extends State<VisitDetails> {
                                                                             .start,
                                                                     children: [
                                                                       Text(
-                                                                        "${widget.storeAddress ?? ""}",
+                                                                        "${storeAddress ?? ""}",
                                                                         style: TextStyle(
                                                                             fontSize:
                                                                                 size.width * 0.04),

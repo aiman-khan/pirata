@@ -98,7 +98,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                     return Text('Error: ${snapshot.error}');
                   }
                   if (!snapshot.hasData) {
-                    return Text('Loading...');
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ));
                   }
                   List<Visit> visits = snapshot.data!.docs
                       .map((doc) => Visit.fromFirestoreMap(doc))

@@ -40,7 +40,7 @@ class _HomeProfileState extends State<HomeProfile> {
             ),
             GestureDetector(
                 onTap: () {
-                  Get.off(() => const HomeCalender());
+                  Get.off(() => HomeCalender());
                 },
                 child: SvgPicture.asset("images/calendar.svg")),
             GestureDetector(

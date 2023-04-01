@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:maps_de/screens/Home/home_profile.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../../utils/Colors.dart';
 import 'home_calender.dart';
 import 'home_chat.dart';
 import 'home_map.dart';
-
 
 // class MainHome extends StatefulWidget {
 //   MainHome({required Key key, required this.title}) : super(key: key);
@@ -100,7 +96,8 @@ class MainHome extends StatefulWidget {
   State createState() => _MainHomeState();
 }
 
-class _MainHomeState extends State<MainHome> with SingleTickerProviderStateMixin {
+class _MainHomeState extends State<MainHome>
+    with SingleTickerProviderStateMixin {
   static TabController? _tabController;
 
   @override
@@ -114,6 +111,7 @@ class _MainHomeState extends State<MainHome> with SingleTickerProviderStateMixin
     _tabController?.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -140,11 +138,11 @@ class _MainHomeState extends State<MainHome> with SingleTickerProviderStateMixin
         body: TabBarView(
           controller: _tabController,
           physics: const NeverScrollableScrollPhysics(),
-          children: const <Widget>[
-            HomeProfile(),
+          children: <Widget>[
+            const HomeProfile(),
             HomeCalender(),
-            HomeMap(),
-            HomeChat(),
+            const HomeMap(),
+            const HomeChat(),
           ],
         ),
       ),

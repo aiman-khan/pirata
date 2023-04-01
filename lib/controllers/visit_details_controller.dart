@@ -1,26 +1,21 @@
 import 'dart:async';
-import 'dart:ui' as ui;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:maps_de/models/visits.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../models/visits.dart';
 import '../utils/utils.dart';
 
-class MapDialogs extends GetxController {
+class VisitDetailsController extends GetxController {
   RxMap<String, Marker> markerList = <String, Marker>{}.obs;
   Position? currentPosition;
   RxBool loading = false.obs;
-  RxBool showSearchedPlaces = false.obs;
   RxList<dynamic> storesList = <dynamic>[].obs;
-  RxBool searching = false.obs;
-  TextEditingController searchTextController = TextEditingController();
   CameraPosition? currentCameraPosition;
   final Completer<GoogleMapController> mapCompleter =
       Completer<GoogleMapController>();
@@ -49,6 +44,81 @@ class MapDialogs extends GetxController {
           icon: BitmapDescriptor.defaultMarker,
           position: latLng),
     );
+
+    polyline.points.add(latLng);
+  }
+
+  Polyline polyline = const Polyline(
+    polylineId: PolylineId('polyline'),
+    color: Colors.blue,
+    width: 3,
+    points: <LatLng>[],
+  );
+
+  void moveCameraToCurrentLocation() async {
+    currentPosition = await Utils.getCurrentUserLocation(denied: () {
+      Get.defaultDialog(
+        content: locationPermissionDialog(
+            title: "Attention",
+            description: "Allow location to see planted tree around you",
+            cancelTap: () {
+              Get.back();
+            },
+            buttonTap: () {
+              openAppSettings();
+            },
+            image: "",
+            buttonTitle: "Open setting"),
+      );
+    });
+    if (googleMapController != null) {
+      if (currentPosition != null) {
+        googleMapController!.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target:
+                  LatLng(currentPosition!.latitude, currentPosition!.longitude),
+              zoom: 14.4746,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> getLocations() async {
+    loading.value = true;
+    storesList.clear();
+
+    final visitsStream =
+        FirebaseFirestore.instance.collection('store_visits').snapshots();
+    Stream<List<Visit>> visits = visitsStream.map((querySnapshot) =>
+        querySnapshot.docs.map((doc) => Visit.fromFirestoreMap(doc)).toList());
+
+    await for (List<Visit> v in visits) {
+      for (Visit visit in v) {
+        addMarkers(
+            LatLng(double.parse(visit.gpsLocation!.latitude.toString()),
+                double.parse(visit.gpsLocation!.longitude.toString())),
+            imagePath: "");
+      }
+    }
+    loading.value = false;
+  }
+
+  void moveCameraToSelectedLocation(LatLng? latLng) async {
+    if (googleMapController != null) {
+      if (latLng != null) {
+        googleMapController!.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: latLng,
+              zoom: 14.4746,
+            ),
+          ),
+        );
+      }
+    }
   }
 
   Future<void> moveCameraAccordingToCurrentLocation() async {
@@ -77,6 +147,19 @@ class MapDialogs extends GetxController {
             CameraUpdate.newCameraPosition(currentCameraPosition!));
       }
     }
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    getLocations();
+  }
+
+  @override
+  void onClose() {
+    markerList.close();
+    googleMapController?.dispose();
+    super.onClose();
   }
 
   Widget locationPermissionDialog({
