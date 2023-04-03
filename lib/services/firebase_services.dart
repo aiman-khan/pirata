@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:maps_de/models/store.dart';
 import 'package:maps_de/utils/Colors.dart';
 
+import '../models/visits.dart';
+
 class FirebaseServices {
   Future<void> signUpUser(
     String emailAddress,
@@ -278,4 +280,23 @@ class FirebaseServices {
         (QuerySnapshot querySnapshot) =>
             querySnapshot.docs.map((doc) => Store.fromFirestore(doc)).toList());
   }
+
+  // sendReport(Visit visit) async {
+  //   await FirebaseFirestore.instance
+  //       .collection('store_visits')
+  //       .where('visit_id', isEqualTo: visit.visitId)
+  //       .get()
+  //       .then((querySnapshot) {
+  //     querySnapshot.docs.forEach((document) {
+  //       document.reference
+  //           .update({
+  //             'email': emailController.text,
+  //             'name': nameController.text,
+  //             'phone': phoneController.text
+  //           })
+  //           .then((value) => print('Document updated'))
+  //           .catchError((error) => print('Failed to update document: $error'));
+  //     });
+  //   });
+  // }
 }

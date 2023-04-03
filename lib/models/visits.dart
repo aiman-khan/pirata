@@ -148,6 +148,10 @@ class Item {
   String? incidence;
   String? itemId;
   String? price;
+  String? priceInSystem;
+  String? productName;
+  String? shelfInventory;
+  String? shelfInventoryInSystem;
 
   Item({
     this.additionalExibitionPhotos,
@@ -160,6 +164,10 @@ class Item {
     this.incidence,
     this.itemId,
     this.price,
+    this.priceInSystem,
+    this.productName,
+    this.shelfInventory,
+    this.shelfInventoryInSystem,
   });
 
   Map<String, dynamic> toMap() {
@@ -174,6 +182,10 @@ class Item {
       'incidence': incidence,
       'item_id': itemId,
       'price': price,
+      'price_in_system': priceInSystem,
+      'product_name': productName,
+      'shelf_inventory': shelfInventory,
+      'shelf_inventory_in_system': shelfInventoryInSystem,
     };
   }
 
@@ -189,6 +201,10 @@ class Item {
       incidence: map['incidence'],
       itemId: map['item_id'],
       price: map['price'],
+      priceInSystem: map['price_in_system'],
+      productName: map['product_name'],
+      shelfInventory: map['shelf_inventory'],
+      shelfInventoryInSystem: map['shelf_inventory_in_system'],
     );
   }
 
@@ -204,6 +220,10 @@ class Item {
       'incidence': incidence,
       'item_id': itemId,
       'price': price,
+      'price_in_system': priceInSystem,
+      'product_name': productName,
+      'shelf_inventory': shelfInventory,
+      'shelf_inventory_in_system': shelfInventoryInSystem,
     };
   }
 
@@ -220,6 +240,10 @@ class Item {
       incidence: data['incidence'],
       itemId: data['item_id'],
       price: data['price'],
+      priceInSystem: data['price_in_system'],
+      productName: data['product_name'],
+      shelfInventory: data['shelf_inventory'],
+      shelfInventoryInSystem: data['shelf_inventory_in_system'],
     );
   }
 }

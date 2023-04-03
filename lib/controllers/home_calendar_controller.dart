@@ -14,6 +14,7 @@ class HomeCalendarController extends GetxController {
 
   // DocumentSnapshot? visits;
   Rx<DocumentSnapshot>? visits;
+  final expand = false.obs;
 
   final userId = "".obs;
 

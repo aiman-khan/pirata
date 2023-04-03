@@ -18,7 +18,7 @@ class StoreNamePart1 extends StatelessWidget {
         padding: EdgeInsets.all(size.width * 0.05),
         child: GestureDetector(
           onTap: () {
-            Get.to(() => const StoreNamePart2());
+            Get.to(() => StoreNamePart2(visit: visit));
           },
           child: Container(
             width: size.width,
@@ -288,222 +288,72 @@ class StoreNamePart1 extends StatelessWidget {
             const Divider(
               color: Colors.black,
             ),
-            Padding(
-              padding: EdgeInsets.all(size.width * 0.05),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      width: size.width * 0.23,
-                      child: Text(
-                        "Palomitas\namaranto, linaza",
-                        style: TextStyle(fontSize: size.width * 0.045),
-                      )),
-                  Container(
-                    padding: EdgeInsets.all(size.width * 0.02),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)),
-                    child: const Icon(Icons.camera_alt_outlined),
-                  ),
-                  Container(
-                    width: size.width * 0.2,
-                    padding: EdgeInsets.all(size.width * 0.03),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)),
-                    child: Text(
-                      "10",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: size.width * 0.045,
-                          fontWeight: FontWeight.bold),
+            ListView.separated(
+                itemCount: visit.dataInStore!.length,
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                separatorBuilder: (context, index) {
+                  return const Divider(
+                    color: Colors.black,
+                  );
+                },
+                itemBuilder: (context, index) {
+                  var item = visit.dataInStore!['items'][index];
+                  return Padding(
+                    padding: EdgeInsets.all(size.width * 0.05),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                            width: size.width * 0.23,
+                            child: Text(
+                              "${item['product_name']}",
+                              style: TextStyle(fontSize: size.width * 0.045),
+                            )),
+                        Container(
+                          padding: EdgeInsets.all(size.width * 0.02),
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius:
+                                  BorderRadius.circular(size.width * 0.02)),
+                          child: const Icon(Icons.camera_alt_outlined),
+                        ),
+                        Container(
+                          width: size.width * 0.2,
+                          padding: EdgeInsets.all(size.width * 0.03),
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius:
+                                  BorderRadius.circular(size.width * 0.02)),
+                          child: Text(
+                            "${item['shelf_inventory_in_system']}",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: size.width * 0.045,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          width: size.width * 0.2,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(size.width * 0.02),
+                              border: Border.all(width: 1.5)),
+                          child: TextField(
+                            decoration: InputDecoration(
+                              hintText: "",
+                              contentPadding: EdgeInsets.all(size.width * 0.04),
+                              focusedBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Container(
-                    width: size.width * 0.2,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(size.width * 0.02),
-                        border: Border.all(width: 1.5)),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "",
-                        contentPadding: EdgeInsets.all(size.width * 0.04),
-                        focusedBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(
-              color: Colors.black,
-            ),
-            Padding(
-              padding: EdgeInsets.all(size.width * 0.05),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      width: size.width * 0.23,
-                      child: Text(
-                        "Bites\nCamu Camu",
-                        style: TextStyle(fontSize: size.width * 0.045),
-                      )),
-                  Container(
-                    padding: EdgeInsets.all(size.width * 0.02),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)),
-                    child: const Icon(Icons.camera_alt_outlined),
-                  ),
-                  Container(
-                    width: size.width * 0.2,
-                    padding: EdgeInsets.all(size.width * 0.03),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)),
-                    child: Text(
-                      "10",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: size.width * 0.045,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Container(
-                    width: size.width * 0.2,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(size.width * 0.02),
-                        border: Border.all(width: 1.5)),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "",
-                        contentPadding: EdgeInsets.all(size.width * 0.04),
-                        focusedBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(
-              color: Colors.black,
-            ),
-            Padding(
-              padding: EdgeInsets.all(size.width * 0.05),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      width: size.width * 0.23,
-                      child: Text(
-                        "Palomitas\nchile limón",
-                        style: TextStyle(fontSize: size.width * 0.045),
-                      )),
-                  Container(
-                    padding: EdgeInsets.all(size.width * 0.02),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)),
-                    child: const Icon(Icons.camera_alt_outlined),
-                  ),
-                  Container(
-                    width: size.width * 0.2,
-                    padding: EdgeInsets.all(size.width * 0.03),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)),
-                    child: Text(
-                      "10",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: size.width * 0.045,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Container(
-                    width: size.width * 0.2,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(size.width * 0.02),
-                        border: Border.all(width: 1.5)),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "",
-                        contentPadding: EdgeInsets.all(size.width * 0.04),
-                        focusedBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(
-              color: Colors.black,
-            ),
-            Padding(
-              padding: EdgeInsets.all(size.width * 0.05),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      width: size.width * 0.23,
-                      child: Text(
-                        "Bites\nColageno",
-                        style: TextStyle(fontSize: size.width * 0.045),
-                      )),
-                  Container(
-                    padding: EdgeInsets.all(size.width * 0.02),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)),
-                    child: const Icon(Icons.camera_alt_outlined),
-                  ),
-                  Container(
-                    width: size.width * 0.2,
-                    padding: EdgeInsets.all(size.width * 0.03),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(size.width * 0.02)),
-                    child: Text(
-                      "10",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: size.width * 0.045,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Container(
-                    width: size.width * 0.2,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(size.width * 0.02),
-                        border: Border.all(width: 1.5)),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "",
-                        contentPadding: EdgeInsets.all(size.width * 0.04),
-                        focusedBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(
-              color: Colors.black,
-            ),
+                  );
+                }),
           ],
         ),
       ),

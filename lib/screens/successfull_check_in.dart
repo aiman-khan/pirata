@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:maps_de/screens/store_name_part1.dart';
-import 'package:get/get.dart';
 
 class SuccessFullCheckIn extends StatefulWidget {
   const SuccessFullCheckIn({Key? key}) : super(key: key);

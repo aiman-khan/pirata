@@ -197,128 +197,122 @@ class HomeMap extends GetView<HomeMapController> {
                   const Divider(
                     color: Colors.black,
                   ),
-                  Container(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: StreamBuilder<QuerySnapshot>(
-                          stream: FirebaseFirestore.instance
-                              .collection('store_visits')
-                              .snapshots(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
-                            }
-                            if (!snapshot.hasData) {
-                              return const Center(
-                                  child: CircularProgressIndicator(
-                                color: Colors.black,
-                              ));
-                            }
-                            List<Visit> visits = snapshot.data!.docs
-                                .map((doc) => Visit.fromFirestoreMap(doc))
-                                .toList();
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('routes')
+                            .snapshots(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+                          if (!snapshot.hasData) {
+                            return const Center(
+                                child: CircularProgressIndicator(
+                              color: Colors.black,
+                            ));
+                          }
+                          List<Visit> visits = snapshot.data!.docs
+                              .map((doc) => Visit.fromFirestoreMap(doc))
+                              .toList();
 
-                            return ListView.builder(
-                                itemCount: visits.length,
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    children: [
-                                      SizedBox(
-                                        height: size.height * 0.01,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Get.to(
-                                            () => StoreNamePart1(
-                                              visit: visits[index],
-                                            ),
-                                          );
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.all(
-                                                  size.width * 0.03),
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        "ID VISITA #${visits[index].visitId}",
-                                                        style: TextStyle(
-                                                            fontSize:
-                                                                size.width *
-                                                                    0.04,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            8.0),
-                                                    child: IntrinsicHeight(
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              const VerticalDivider(
-                                                                color: Colors
-                                                                    .black,
-                                                                thickness: 2,
-                                                              ),
-                                                              Column(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .start,
-                                                                children: [
-                                                                  Text(
-                                                                    "${visits[index].storeName}",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            size.width *
-                                                                                0.04),
-                                                                  ),
-                                                                  Text(
-                                                                    "Navarrete #156 Col. Linda Vista",
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            size.width *
-                                                                                0.04),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const Icon(Icons
-                                                              .navigate_next)
-                                                        ],
-                                                      ),
+                          return ListView.builder(
+                              itemCount: visits.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    SizedBox(
+                                      height: size.height * 0.01,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.to(
+                                          () => StoreNamePart1(
+                                            visit: visits[index],
+                                          ),
+                                        );
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.all(
+                                                size.width * 0.03),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      "ID VISITA #${visits[index].visitId}",
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              size.width * 0.04,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: IntrinsicHeight(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            const VerticalDivider(
+                                                              color:
+                                                                  Colors.black,
+                                                              thickness: 2,
+                                                            ),
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  "${visits[index].storeName}",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          size.width *
+                                                                              0.04),
+                                                                ),
+                                                                Text(
+                                                                  "Navarrete #156 Col. Linda Vista",
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          size.width *
+                                                                              0.04),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const Icon(
+                                                            Icons.navigate_next)
+                                                      ],
                                                     ),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
-                                            const Divider(
-                                              color: Colors.black,
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                });
-                          }),
-                    ),
+                                          ),
+                                          const Divider(
+                                            color: Colors.black,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                );
+                              });
+                        }),
                   ),
                 ],
               ),

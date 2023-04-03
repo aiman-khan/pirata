@@ -17,6 +17,7 @@ class HomeMapController extends GetxController {
 
   Position? currentPosition;
   RxBool loading = false.obs;
+  final expand = false.obs;
   RxList<dynamic> storesList = <dynamic>[].obs;
   CameraPosition? currentCameraPosition;
   final Completer<GoogleMapController> mapCompleter =

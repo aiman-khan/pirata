@@ -29,91 +29,147 @@ class SideDrawer extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Name",style: TextStyle(color: Colors.white,fontSize: size.width * 0.06,fontWeight: FontWeight.w700),),
+                Text(
+                  "Name",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: size.width * 0.06,
+                      fontWeight: FontWeight.w700),
+                ),
               ],
             ),
           ),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               // Get.to(() => const FilesUpload());
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Screen 1',style: TextStyle(fontSize: size.width * 0.04,color: Colors.black),),
+              child: Text(
+                'Screen 1',
+                style:
+                    TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+              ),
             ),
           ),
-          const Divider(color: Colors.grey,),
+          const Divider(
+            color: Colors.grey,
+          ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Get.to(() => const Screen2());
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Screen 2',style: TextStyle(fontSize: size.width * 0.04,color: Colors.black),),
+              child: Text(
+                'Screen 2',
+                style:
+                    TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+              ),
             ),
           ),
-          const Divider(color: Colors.grey,),
+          const Divider(
+            color: Colors.grey,
+          ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Get.to(() => const StartRoute());
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Screen 3',style: TextStyle(fontSize: size.width * 0.04,color: Colors.black),),
+              child: Text(
+                'Screen 3',
+                style:
+                    TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+              ),
             ),
           ),
-          const Divider(color: Colors.grey,),
+          const Divider(
+            color: Colors.grey,
+          ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Get.to(() => const Screen4());
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Screen 4',style: TextStyle(fontSize: size.width * 0.04,color: Colors.black),),
+              child: Text(
+                'Screen 4',
+                style:
+                    TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+              ),
             ),
           ),
-          const Divider(color: Colors.grey,),
+          const Divider(
+            color: Colors.grey,
+          ),
           GestureDetector(
-            onTap: (){
-              Get.to(() => const StoreNamePart3());
+            onTap: () {
+              Get.to(() => StoreNamePart3());
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Screen 5',style: TextStyle(fontSize: size.width * 0.04,color: Colors.black),),
+              child: Text(
+                'Screen 5',
+                style:
+                    TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+              ),
             ),
           ),
-          const Divider(color: Colors.grey,),
+          const Divider(
+            color: Colors.grey,
+          ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Get.to(() => const Screen6());
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Screen 6',style: TextStyle(fontSize: size.width * 0.04,color: Colors.black),),
+              child: Text(
+                'Screen 6',
+                style:
+                    TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+              ),
             ),
           ),
-          const Divider(color: Colors.grey,),
+          const Divider(
+            color: Colors.grey,
+          ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Get.to(() => const Screen7());
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Screen 7',style: TextStyle(fontSize: size.width * 0.04,color: Colors.black),),
+              child: Text(
+                'Screen 7',
+                style:
+                    TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+              ),
             ),
           ),
-          const Divider(color: Colors.grey,),
+          const Divider(
+            color: Colors.grey,
+          ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Get.to(() => const HomeChat());
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Screen 8',style: TextStyle(fontSize: size.width * 0.04,color: Colors.black),),
+              child: Text(
+                'Screen 8',
+                style:
+                    TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+              ),
             ),
           ),
-          const Divider(color: Colors.grey,),
+          const Divider(
+            color: Colors.grey,
+          ),
         ],
       ),
     );
