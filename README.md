@@ -1,16 +1,3 @@
 # maps_de
 
-A new Flutter application.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![p1gtoos6e81pu61dhg9j4t3t1ssu4-1](https://user-images.githubusercontent.com/53793888/233621698-4a370a27-fb8e-4ef3-83a5-8844b719e913.jpg)
